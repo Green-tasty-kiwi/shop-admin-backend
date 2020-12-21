@@ -1,6 +1,6 @@
-module.exports = class CreateProductRequest {
+module.exports = class UpdateProductRequest {
     constructor(request) {
-        console.log(request.body);
+        this._productId = request.params.productId;
         this._name = request.body.name;
         this._description = request.body.description;
         this._price = request.body.price;
@@ -14,6 +14,10 @@ module.exports = class CreateProductRequest {
 
     get name() {
         return this._name
+    }
+
+    get productId() {
+        return this._productId
     }
 
     get description() {

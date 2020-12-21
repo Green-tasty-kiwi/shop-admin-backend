@@ -1,6 +1,6 @@
-module.exports = class OrdersGateway {
+module.exports = class OrderProductsGateway {
     constructor({ database }) {
-        this._ordersModel = database.OrderModel;
+        this._orderProductModel = database.OrderProductsModel;
     }
 
     async findAll({ page = 0, perPage = 10 }) {
@@ -12,15 +12,15 @@ module.exports = class OrdersGateway {
     }
 
     findById(id) {
-        return this._ordersModel.findByPk(id)
+        return this._OrderProductsModel.findByPk(id)
     }
 
     create(values) {
-        return this._ordersModel.create(values)
+        return this._OrderProductsModel.create(values)
     }
 
     update({ values, id }) {
-        return this._ordersModel.update(values, {
+        return this._OrderProductsModel.update(values, {
             where: { id }
         })
     }

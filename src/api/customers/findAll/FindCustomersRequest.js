@@ -1,5 +1,5 @@
-module.exports = class FindProductsRequest {
-    constructor(request) {
+module.exports = class FindCustomersRequest {
+    costructor(request) {
         this._page = request.query.page;
         this._perPage = request.query.perPage;
     }

@@ -1,7 +1,7 @@
 module.exports = class ProductsGateway {
 
     constructor({ database }) {
-        this._productsModel = database.ProductsModel;
+        this._productsModel = database.ProductModel;
     }
 
     async findAll({ page = 0, perPage = 10 }) {
@@ -12,6 +12,12 @@ module.exports = class ProductsGateway {
 
     }
 
+    findOne({ name }) {
+        return this._productsModel.findOne({
+            where: { name }
+        })
+    }
+
     findById(id) {
         return this._productsModel.findByPk(id)
     }
@@ -20,10 +26,12 @@ module.exports = class ProductsGateway {
         return this._productsModel.create(values)
     }
 
-    update({ values, id }) {
-        return this._productsModel.update(values, {
+    async updateOne({ id }, values) {
+        await this._productsModel.update(values, {
             where: { id }
         })
+
+        return this.findById(id);
     }
 
 };

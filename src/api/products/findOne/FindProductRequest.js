@@ -1,5 +1,5 @@
 module.exports = class FindProductRequest {
-    construtor(request) {
+    constructor(request) {
         this._productId = request.params.productId;
     }
 

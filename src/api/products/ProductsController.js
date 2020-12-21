@@ -8,12 +8,15 @@ const FindProductsRequest = require('./findAll/FindProductsRequest');
 const FindProductInteractor = require('./findOne/FindProductInteractor');
 const FindProductRequest = require('./findOne/FindProductRequest');
 
+const UpdateProductInterator = require('./updateOne/UpdateProductInterator');
+const UpdateProductRequest = require('./updateOne/UpdateProductRequest');
+
 const ProductResponseBuilder = require('./ProductResponseBuilder');
 const HttpResponder = require('../../core/HttpResponder');
 
 module.exports = class ProductsController {
 
-    constructor({ ProductsGateway }) {
+    constructor({ productsGateway }) {
         this._productsGateway = productsGateway;
     }
 
@@ -39,5 +42,13 @@ module.exports = class ProductsController {
             productsGateway: this._productsGateway,
             responseBuilder: new ProductResponseBuilder(),
         }).execute(new FindProductRequest(request));
+    }
+
+    updateProduct(request, response, next) {
+        new UpdateProductInterator({
+            responder: new HttpResponder(response),
+            productsGateway: this._productsGateway,
+            responseBuilder: new ProductResponseBuilder(),
+        }).execute(new UpdateProductRequest(request))
     }
 }

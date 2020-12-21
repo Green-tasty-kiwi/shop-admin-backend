@@ -1,5 +1,6 @@
-const { AlreadyExistsError } = require('../../../../utils/errors/AlreadyExistsError');
-
+const { AlreadyExistsError } = require('../../../../utils/errors');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 module.exports = class CreateUserInteractor {
     constructor({
         responder,
@@ -14,7 +15,7 @@ module.exports = class CreateUserInteractor {
     async execute(request) {
 
         const existUser = await this._usersGateway.findOne({
-            phone: request.phone,
+            email: request.email,
         });
 
         if (existUser) {
@@ -22,15 +23,13 @@ module.exports = class CreateUserInteractor {
             return;
         }
 
+        const password = request.password;
 
         const user = await this._usersGateway.create({
             firstName: request.firstName,
             lastName: request.lastName,
-            phone: request.phone,
-            city: request.city,
-            address: request.address,
-            house: request.house,
-            appartment: request.appartment,
+            email: request.email,
+            password: bcrypt.hashSync(password, saltRounds)
         });
 
         const response = this._responseBuilder.build(user);

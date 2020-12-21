@@ -1,3 +1,4 @@
+const { NotFoundError } = require('../../../../utils/errors')
 module.exports = class FindProductsInterator {
     constructor({ responder, productsGateway, responseBuilder }) {
         this._responder = responder;
@@ -6,9 +7,12 @@ module.exports = class FindProductsInterator {
     }
 
     async execute(request) {
-        const product = await this._productsGateway.findById({
-            id: request.productId
-        });
+        const product = await this._productsGateway.findById(request.productId);
+
+        if (!product) {
+            this._responder.respondFailure(new NotFoundError('Product is not found'));
+            return;
+        }
 
         const response = this._responseBuilder.build(product)
 

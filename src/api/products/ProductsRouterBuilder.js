@@ -1,5 +1,5 @@
 const express = require('express');
-const uploadImageMiddleware = require('../../middleware/uploadImageMiddleware')
+const createUploadFileMiddleware = require('../../middleware/uploadImageMiddleware')
 
 module.exports = class ProductsRouterBuilder {
 
@@ -13,8 +13,9 @@ module.exports = class ProductsRouterBuilder {
         const router = express.Router();
 
         router
-            .post('/', uploadImageMiddleware(), (...args) => this._productsController.create(...args))
+            .post('/', createUploadFileMiddleware(), (...args) => this._productsController.create(...args))
             .get('/', (...args) => this._productsController.findProducts(...args))
+            .post('/:productId', createUploadFileMiddleware(), (...args) => this._productsController.updateProduct(...args))
             .get('/:productId', (...args) => this._productsController.findProduct(...args))
 
         return router;

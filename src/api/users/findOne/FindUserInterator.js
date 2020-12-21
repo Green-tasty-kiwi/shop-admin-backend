@@ -1,4 +1,4 @@
-module.exports = class FindUsersInterator {
+module.exports = class FindUserInterator {
     constructor({ responder, usersGateway, responseBuilder }) {
         this._responder = responder;
         this._usersGateway = usersGateway;

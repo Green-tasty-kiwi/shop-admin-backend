@@ -3,15 +3,19 @@ const express = require('express');
 const UsersRouterBuilder = require('./users/UsersRouterBuilder');
 const ProductsRouterBuilder = require('./products/ProductsRouterBuilder');
 const OrdersRouterBuilder = require('./orders/OrdersRouterBuilder');
+const CustomersRouterBuilder = require('./customers/CustomersRouterBuilder');
 
 module.exports = class AppRouterBuilder {
     constructor({
         usersController,
         productsController,
-        ordersRouterBuilder,
+        ordersController,
+        customersController,
     }) {
         this._usersController = usersController;
         this._productsController = productsController;
+        this._ordersController = ordersController;
+        this._customersController = customersController;
     }
 
     build() {
@@ -34,6 +38,12 @@ module.exports = class AppRouterBuilder {
                 '/api/orders',
                 new OrdersRouterBuilder({
                     ordersController: this._ordersController
+                }).build()
+            )
+            .use(
+                '/api/customers',
+                new CustomersRouterBuilder({
+                    customersController: this._customersController
                 }).build()
             )
 

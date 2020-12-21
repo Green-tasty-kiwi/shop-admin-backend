@@ -1,7 +1,7 @@
 module.exports = class UsersGateway {
 
     constructor({ database }) {
-        this._usersModel = database.UsersModel;
+        this._usersModel = database.UserModel;
     }
 
     async findAll({ page = 0, perPage = 10 }) {
@@ -12,9 +12,9 @@ module.exports = class UsersGateway {
 
     }
 
-    findOne({ phone }) {
+    findOne({ email }) {
         return this._usersModel.findOne({
-            where: { phone }
+            where: { email }
         })
     }
 

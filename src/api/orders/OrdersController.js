@@ -13,14 +13,24 @@ const HttpResponder = require('../../core/HttpResponder');
 
 module.exports = class OrdersController {
 
-    constructor({ ordersGateway }) {
+    constructor({
+        ordersGateway,
+        orderProductsGateway,
+        customersGateway,
+        productsGateway,
+    }) {
         this._ordersGateway = ordersGateway;
+        this._orderProductsGateway = orderProductsGateway;
+        this._customersGateway = customersGateway;
+        this._productsGateway = productsGateway;
     }
 
     create(request, response, next) {
         new CreateOrderInteractor({
             responder: new HttpResponder(response),
             ordersGateway: this._ordersGateway,
+            orderProductsGateway: this._orderProductsGateway,
+            customersGateway: this._customersGateway,
             responseBuilder: new OrderResponseBuilder(),
         }).execute(new CreateOrderRequest(request));
     }

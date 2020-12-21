@@ -6,7 +6,7 @@ module.exports = class ProductResponseBuilder {
             price: product.price,
             status: product.status,
             quantity: product.quantity,
-            image: product.image,
+            image: `http://localhost:4000/static/${product.id}/${product.image}`,
             id: product.id,
         };
     }

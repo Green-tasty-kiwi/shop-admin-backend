@@ -1,7 +1,7 @@
-const { AlreadyExistsError } = require('../../../../utils/errors');
 const fs = require('fs').promises;
 const path = require('path');
-module.exports = class CreateProductInteractor {
+
+module.exports = class UpdateProductInteractor {
     constructor({
         responder,
         productsGateway,
@@ -14,14 +14,15 @@ module.exports = class CreateProductInteractor {
 
     async execute(request) {
 
-        const existProduct = await this._productsGateway.findOne({ name: request.name });
+        const checkProduct = await this._productsGateway.findById(request.productId)
 
-        if (existProduct) {
-            this._responder.respondFailure(new AlreadyExistsError('Product already exist'));
-            return;
-        }
+        if (request.image && checkProduct.image) {
+            fs.unlink(path.join(__dirname,
+                '../../../../',
+                `/storage/products/${checkProduct.id}/${checkProduct.image}`))
+        };
 
-        const product = await this._productsGateway.create({
+        const product = await this._productsGateway.updateOne({ id: request.productId }, {
             name: request.name,
             description: request.description,
             price: request.price,
